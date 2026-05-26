@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "tsx watch ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/mehadishisir/devPulse#readme",
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.9.1",
     "tsx": "^4.22.3"
   },
