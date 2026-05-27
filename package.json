@@ -25,6 +25,8 @@
     "tsx": "^4.22.3"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1"
   }
 }
