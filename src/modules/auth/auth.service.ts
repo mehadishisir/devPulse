@@ -1,6 +1,7 @@
 import { pool } from "../../DB";
 import bcrypt from "bcrypt";
 import type { IUser } from "./auth.interface";
+import jwt from "jsonwebtoken";
 
 const signupService = async(payload:IUser)=>{
 
@@ -26,6 +27,45 @@ const signupService = async(payload:IUser)=>{
        
         return result.rows[0];
 }
+
+// login service
+const loginService = async(payload:{
+    email:string,
+    password:string
+})=>{
+    const {email,password}=payload;
+
+    const result = await pool.query(`
+        SELECT * FROM users WHERE email =$1
+        `,[email]);
+
+    if(result.rows.length === 0){
+        throw new Error("Invalid email or password");
+    }
+
+    const user = result.rows[0];
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if(!isMatch){
+        throw new Error("Invalid email or password");
+    }
+
+    
+
+    // jwt token
+const token = jwt.sign({id:user.id,role:user.role},process.env.JWT_SECRET_KEY as string,
+    {expiresIn:"1d"}
+    );
+    delete user.password;
+    return {
+        user,
+        token
+    };
+}
+
+
+
 export const authService = {
-    signupService
+    signupService,
+    loginService
 };
