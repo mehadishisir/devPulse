@@ -2,6 +2,7 @@ import { pool } from "../../DB";
 import bcrypt from "bcrypt";
 import type { IUser } from "./auth.interface";
 import jwt from "jsonwebtoken";
+import config from "../../config";
 
 const signupService = async(payload:IUser)=>{
 
@@ -53,7 +54,7 @@ const loginService = async(payload:{
     
 
     // jwt token
-const token = jwt.sign({id:user.id,role:user.role},process.env.JWT_SECRET_KEY as string,
+const token = jwt.sign({id:user.id,name:user.name,role:user.role},config.jwt_secret_key,
     {expiresIn:"1d"}
     );
     delete user.password;

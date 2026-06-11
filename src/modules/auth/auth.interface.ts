@@ -4,3 +4,8 @@ export interface IUser {
   password: string;
   role: "contributor" | "maintainer";
 }
+export interface JwtPayload {
+  id: number;
+  name: string;
+  role: "contributor" | "maintainer";
+}
