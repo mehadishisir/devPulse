@@ -22,9 +22,32 @@ const getAllIssues = async( sort?:string,type?:string,status?:string)=>{
         params.push(status);
         query +=` AND status = $${params.length} `;
     }
-    query +=  sort === "oldest"?`ORDER BY created_at ASC`:`ORDER BY created_at DESC`;   
-    const result =await pool.query(query,params);
-        return result.rows;
+    query +=  sort === "oldest"?` ORDER BY created_at ASC`:` ORDER BY created_at DESC`;  
+    
+    
+    const issuesresult =await pool.query(query,params);
+    const issues = issuesresult.rows;
+    if(issues.length === 0){
+        return [];
+    }
+
+    const reporterIds = [...new Set(issues.map((issue) => issue.reporter_id))];
+
+    const reportersResult = await pool.query(
+        `SELECT id, name, role FROM users WHERE id = ANY($1)`,
+        [reporterIds]
+    );
+    const reportersMap = new Map(reportersResult.rows.map((reporter) => [reporter.id, reporter]));
+
+    return issues.map((issue) => {
+        const { reporter_id, ...rest}=issue;
+        return{
+            ...rest,
+            reporter: reportersMap.get(issue.reporter_id) || null   
+
+        }
+    })
+       
 }
 export const issuesService = {
     createIssue,
