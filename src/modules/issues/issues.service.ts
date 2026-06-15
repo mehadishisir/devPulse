@@ -111,11 +111,29 @@ const result = await pool.query(
 return result.rows[0];
     
 }
+// delete issue
+const deleteIssue = async (id: number, userRole: string) => {
+  if (userRole !== "maintainer") {
+    throw new Error("Only maintainers can delete issues");
+  }
+
+  const result = await pool.query(
+    `DELETE FROM issues WHERE id = $1 RETURNING *`,
+    [id]
+  );
+
+  if (result.rows.length === 0) {
+    throw new Error("Issue not found");
+  }
+
+  return result.rows[0];
+};
 
 
 export const issuesService = {
     createIssue,
     getAllIssues,
     getSingleIssue,
-    updateIssue
+    updateIssue,
+    deleteIssue
 }

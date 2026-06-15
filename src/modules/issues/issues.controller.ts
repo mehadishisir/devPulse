@@ -80,13 +80,38 @@ const updateIssue = async (req:AuthRequest,res:Response)=>{
         });
     }
 }
+// delete issue
+// delete issue
+const deleteIssue = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userRole = req.user?.role as string;
+
+    await issuesService.deleteIssue(Number(id), userRole);
+
+    res.status(200).json({
+      success: true,
+      message: "Issue deleted successfully",
+    });
+  } catch (error: any) {
+    res.status(403).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 export const issuesController = {
     createIssue,
     getAllIssues,
     getSingleIssue,
-    updateIssue
+    updateIssue,
+    deleteIssue
 }
+    
+
+    
+    
     
 
     
