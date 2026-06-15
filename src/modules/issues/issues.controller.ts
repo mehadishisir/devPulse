@@ -60,10 +60,33 @@ const getSingleIssue = async (req:Request,res:Response)=>{
         });
     }
 }
+// update issue
+const updateIssue = async (req:AuthRequest,res:Response)=>{
+    try{
+        const {id}=req.params;
+        const userId = req.user?.id as number;
+        const userRole = req.user?.role as string;
+        const result = await issuesService.updateIssue(Number(id),req.body,userId,userRole);
+        res.status(200).json({
+            success:true,
+            message:"Issue updated successfully",
+            data:result
+        });
+    } catch (error: any) {
+        res.status(404).json({ 
+            success: false,
+            message: "Failed to update issue",
+            error: error.message
+        });
+    }
+}
 
 export const issuesController = {
     createIssue,
     getAllIssues,
     getSingleIssue,
+    updateIssue
 }
+    
+
     

@@ -68,8 +68,54 @@ const getSingleIssue = async (id:number)=>{
         reporter: reporterResult.rows[0] || null
     }
 }
+
+// update issue
+const updateIssue = async (id:number, 
+    payload: {title?:string,description?:string,type?:string,status?:string},
+    userId:number,
+    userRole:string
+)=>{
+    const issueResult = await pool.query(`SELECT * FROM issues WHERE id = $1`,[id]);
+    const issue = issueResult.rows[0];
+
+    if(!issue){
+        throw new Error("Issue not found");
+    }
+
+    const isMaintainer = userRole === "maintainer";
+    const isOwner = issue.reporter_id === userId;
+
+   if (!isMaintainer) {
+    if (!isOwner) {
+        throw new Error("You can update only your own issue");
+    }
+    if (issue.status !== "open") {
+        throw new Error("You can update only 'open' issues");
+    }
+}
+const { title, description, type,status } = payload;
+
+const newStatus = isMaintainer ? status : undefined;
+
+const result = await pool.query(
+    `UPDATE issues
+     SET title = COALESCE($1, title),
+         description = COALESCE($2, description),
+         type = COALESCE($3, type),
+         status = COALESCE($4, status),
+         updated_at = CURRENT_TIMESTAMP
+     WHERE id = $5
+     RETURNING *`,
+    [title, description, type, newStatus, id]
+);
+return result.rows[0];
+    
+}
+
+
 export const issuesService = {
     createIssue,
     getAllIssues,
-    getSingleIssue
+    getSingleIssue,
+    updateIssue
 }
