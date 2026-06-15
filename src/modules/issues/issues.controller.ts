@@ -42,8 +42,28 @@ const getAllIssues= async(req:Request,res:Response)=>{
         });
     }   
 }
+// get single issue
+const getSingleIssue = async (req:Request,res:Response)=>{
+    try{
+        const {id}=req.params;
+        const result = await issuesService.getSingleIssue(Number(id));
+        res.status(200).json({
+            success:true,
+            message:"Issue retrieved successfully",
+            data:result
+        });
+    } catch (error: any) {
+        res.status(404).json({ 
+            success: false,
+            message: "Failed to retrieve issue",
+            error: error.message
+        });
+    }
+}
 
 export const issuesController = {
     createIssue,
-    getAllIssues
+    getAllIssues,
+    getSingleIssue,
 }
+    
