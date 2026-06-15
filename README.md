@@ -97,20 +97,35 @@ DELETE /api/issues/:id
 
 ---
 
-## ⚙️ Environment Variables
+## 🚀 Deployment
 
-Create a `.env` file:
-
-PORT=5000  
-DATABASE_URL=your_neon_db_url  
-JWT_SECRET_KEY=your_secret_key  
+- Deployed on Vercel  
+- PostgreSQL hosted on NeonDB  
+- Environment variables configured in Vercel dashboard  
 
 ---
 
-## 📦 Installation & Setup
+## 📌 Features
 
-```bash
-git clone https://github.com/mehadishisir/devPulse
-npm install
-npm run build
-npm start
+- JWT Authentication  
+- Role-based authorization  
+- Issue tracking system  
+- Filtering & sorting issues  
+- Secure password hashing  
+- Modular architecture  
+- Global error handling  
+
+---
+
+## ⚠️ Notes
+
+- Never expose `.env` file to GitHub  
+- All protected routes require JWT token  
+- Only maintainers can delete issues  
+- Contributors can only modify their own open issues  
+
+---
+
+## 👨‍💻 Author
+
+Mehadi Shisir
