@@ -10,6 +10,23 @@ const result = await pool.query(
 )
 return result.rows[0];
 }
+// get all issues
+const getAllIssues = async( sort?:string,type?:string,status?:string)=>{
+    let query = `SELECT * FROM issues WHERE 1=1`;
+    const params:any[] = [];
+    if(type){
+        params.push(type);
+        query +=` AND type = $${params.length} `;
+    }
+    if(status){
+        params.push(status);
+        query +=` AND status = $${params.length} `;
+    }
+    query +=  sort === "oldest"?`ORDER BY created_at ASC`:`ORDER BY created_at DESC`;   
+    const result =await pool.query(query,params);
+        return result.rows;
+}
 export const issuesService = {
-    createIssue
+    createIssue,
+    getAllIssues
 }

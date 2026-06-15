@@ -1,4 +1,4 @@
-import type { Response } from "express";
+import type { Request, Response } from "express";
 import type { AuthRequest } from "../auth/auth.interface";
 import { issuesService } from "./issues.service";
 const createIssue = async (req:AuthRequest,res:Response)=>{
@@ -22,7 +22,28 @@ const createIssue = async (req:AuthRequest,res:Response)=>{
     });
   }
 }
+// get all issues
+const getAllIssues= async(req:Request,res:Response)=>{
+    try{
+        const {sort,type,status} = req.query as {sort?:string,type?:string,status?:string}; 
+        const result = await issuesService.getAllIssues(sort,type,status);
+    
+   
+    res.status(200).json({
+        success:true,
+        message:"Issues retrieved successfully",
+        data:result
+    });
+    } catch (error: any) {
+        res.status(500).json({ 
+            success: false,
+            message: "Failed to retrieve issues",
+            error: error.message
+        });
+    }   
+}
 
 export const issuesController = {
-    createIssue
+    createIssue,
+    getAllIssues
 }
