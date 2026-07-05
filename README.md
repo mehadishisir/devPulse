@@ -7,7 +7,7 @@ It allows teams to report bugs, suggest features, and manage issue workflows eff
 
 ## 🌐 Live Links
 
-- 🔗 Production API: https://dev-pulse-gamma-livid.vercel.app
+- 🔗 Production API: https://dev-pulse-zm1u.vercel.app
 - 🔗 GitHub Repo: https://github.com/mehadishisir/devPulse
 
 ---
