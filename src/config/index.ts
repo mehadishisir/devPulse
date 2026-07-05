@@ -1,10 +1,11 @@
-import { env } from "process";
+import dotenv from "dotenv";
 
-require("dotenv").config({quiet: true});
+dotenv.config();
 
-const config={
-    port: env.PORT as string,
-    database_url:env.DB_URL as string,
-    jwt_secret_key:env.JWT_SECRET_KEY as string
-}
+const config = {
+    port: process.env.PORT as string,
+    database_url: process.env.DATABASE_URL as string,
+    jwt_secret_key: process.env.JWT_SECRET_KEY as string
+};
+
 export default config;

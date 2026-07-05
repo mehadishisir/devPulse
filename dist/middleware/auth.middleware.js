@@ -1,6 +1,12 @@
-import jwt from "jsonwebtoken";
-import config from "../config";
-export const authMiddleware = (req, res, next) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authMiddleware = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = __importDefault(require("../config"));
+const authMiddleware = (req, res, next) => {
     const token = req.headers.authorization;
     if (!token) {
         return res.status(401).json({
@@ -9,7 +15,7 @@ export const authMiddleware = (req, res, next) => {
         });
     }
     try {
-        const decoded = jwt.verify(token, config.jwt_secret_key);
+        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_secret_key);
         req.user = decoded;
         next();
     }
@@ -20,4 +26,4 @@ export const authMiddleware = (req, res, next) => {
         });
     }
 };
-//# sourceMappingURL=auth.middleware.js.map
+exports.authMiddleware = authMiddleware;

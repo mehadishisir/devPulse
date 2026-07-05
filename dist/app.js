@@ -1,14 +1,19 @@
-import express, {} from "express";
-import { authRoutes } from "./modules/auth/auth.route";
-import { issuesRouter } from "./modules/issues/issues.router";
-import cors from "cors";
-import { globalErrorHandler } from "./middleware/globalErrorHandler";
-const app = express();
-app.use(express.json());
-app.use(cors());
-app.use('/api/auth', authRoutes);
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const auth_route_1 = require("./modules/auth/auth.route");
+const issues_router_1 = require("./modules/issues/issues.router");
+const cors_1 = __importDefault(require("cors"));
+const globalErrorHandler_1 = require("./middleware/globalErrorHandler");
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.use((0, cors_1.default)());
+app.use('/api/auth', auth_route_1.authRoutes);
 // issues routes
-app.use('/api/issues', issuesRouter);
+app.use('/api/issues', issues_router_1.issuesRouter);
 app.get("/", (req, res) => {
     res.send("devPulse server running");
 });
@@ -18,6 +23,5 @@ app.use((req, res) => {
         message: "Route not found"
     });
 });
-app.use(globalErrorHandler);
-export default app;
-//# sourceMappingURL=app.js.map
+app.use(globalErrorHandler_1.globalErrorHandler);
+exports.default = app;

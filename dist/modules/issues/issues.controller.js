@@ -1,8 +1,21 @@
-import { issuesService } from "./issues.service";
-const createIssue = async (req, res) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.issuesController = void 0;
+const issues_service_1 = require("./issues.service");
+const createIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const reporter_id = req.user?.id;
-        const result = await issuesService.createIssue(req.body, reporter_id);
+        const reporter_id = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const result = yield issues_service_1.issuesService.createIssue(req.body, reporter_id);
         res.status(201).json({
             success: true,
             message: "Issue created successfully",
@@ -16,12 +29,12 @@ const createIssue = async (req, res) => {
             error: error.message
         });
     }
-};
+});
 // get all issues
-const getAllIssues = async (req, res) => {
+const getAllIssues = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { sort, type, status } = req.query;
-        const result = await issuesService.getAllIssues(sort, type, status);
+        const result = yield issues_service_1.issuesService.getAllIssues(sort, type, status);
         res.status(200).json({
             success: true,
             message: "Issues retrieved successfully",
@@ -35,12 +48,12 @@ const getAllIssues = async (req, res) => {
             error: error.message
         });
     }
-};
+});
 // get single issue
-const getSingleIssue = async (req, res) => {
+const getSingleIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const result = await issuesService.getSingleIssue(Number(id));
+        const result = yield issues_service_1.issuesService.getSingleIssue(Number(id));
         res.status(200).json({
             success: true,
             message: "Issue retrieved successfully",
@@ -54,14 +67,15 @@ const getSingleIssue = async (req, res) => {
             error: error.message
         });
     }
-};
+});
 // update issue
-const updateIssue = async (req, res) => {
+const updateIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         const { id } = req.params;
-        const userId = req.user?.id;
-        const userRole = req.user?.role;
-        const result = await issuesService.updateIssue(Number(id), req.body, userId, userRole);
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const userRole = (_b = req.user) === null || _b === void 0 ? void 0 : _b.role;
+        const result = yield issues_service_1.issuesService.updateIssue(Number(id), req.body, userId, userRole);
         res.status(200).json({
             success: true,
             message: "Issue updated successfully",
@@ -74,14 +88,15 @@ const updateIssue = async (req, res) => {
             message: error.message
         });
     }
-};
+});
 // delete issue
 // delete issue
-const deleteIssue = async (req, res) => {
+const deleteIssue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { id } = req.params;
-        const userRole = req.user?.role;
-        await issuesService.deleteIssue(Number(id), userRole);
+        const userRole = (_a = req.user) === null || _a === void 0 ? void 0 : _a.role;
+        yield issues_service_1.issuesService.deleteIssue(Number(id), userRole);
         res.status(200).json({
             success: true,
             message: "Issue deleted successfully"
@@ -93,12 +108,11 @@ const deleteIssue = async (req, res) => {
             message: error.message
         });
     }
-};
-export const issuesController = {
+});
+exports.issuesController = {
     createIssue,
     getAllIssues,
     getSingleIssue,
     updateIssue,
     deleteIssue
 };
-//# sourceMappingURL=issues.controller.js.map

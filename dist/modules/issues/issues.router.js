@@ -1,11 +1,13 @@
-import { Router } from "express";
-import { issuesController } from "./issues.controller";
-import { authMiddleware } from "../../middleware/auth.middleware";
-const router = Router();
-router.post("/", authMiddleware, issuesController.createIssue);
-router.get("/", issuesController.getAllIssues);
-router.get("/:id", issuesController.getSingleIssue);
-router.patch("/:id", authMiddleware, issuesController.updateIssue);
-router.delete("/:id", authMiddleware, issuesController.deleteIssue);
-export const issuesRouter = router;
-//# sourceMappingURL=issues.router.js.map
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.issuesRouter = void 0;
+const express_1 = require("express");
+const issues_controller_1 = require("./issues.controller");
+const auth_middleware_1 = require("../../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+router.post("/", auth_middleware_1.authMiddleware, issues_controller_1.issuesController.createIssue);
+router.get("/", issues_controller_1.issuesController.getAllIssues);
+router.get("/:id", issues_controller_1.issuesController.getSingleIssue);
+router.patch("/:id", auth_middleware_1.authMiddleware, issues_controller_1.issuesController.updateIssue);
+router.delete("/:id", auth_middleware_1.authMiddleware, issues_controller_1.issuesController.deleteIssue);
+exports.issuesRouter = router;
